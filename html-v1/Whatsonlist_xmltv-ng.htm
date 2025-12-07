@@ -1,0 +1,637 @@
+<html>
+
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+
+<SCRIPT LANGUAGE="JScript">
+var lastSelection = null;
+
+function onclickCell()
+{
+  var e, c;
+
+
+   e = window.event.srcElement;
+   c = findCell(e);
+
+   if (c != null)
+   {
+      if (lastSelection == null)
+      {
+         selectCell(c);
+         lastSelection = c;
+	   }
+	   else
+      {
+	      if (c == lastSelection)
+         {
+	         deselectCell(lastSelection);
+	      }
+	      else
+         {
+	         c.swapNode(lastSelection);
+            deselectCell(lastSelection);
+	         nSwaps += 1;
+	         numSwaps.innerText = nSwaps;
+		      checkWinner();
+	      }
+	      lastSelection = null;
+      }
+   }
+   window.event.cancelBubble = true;
+}
+
+function findCell(e)
+{
+   if (e.tagName == "TD")
+   {
+      return e;
+   }
+   else if (e.tagName == "BODY")
+   {
+      return null;
+   }
+   else
+   {
+      return findCell(e.parentElement);
+   }
+}
+
+function selectCell(c)
+{
+   c.runtimeStyle.backgroundColor = "red";
+   c.runtimeStyle.color = "white";
+}
+
+function cancelSelect()
+{
+   if (lastSelection != null)
+   {
+      deselectCell(lastSelection);
+      lastSelection = null;
+   }
+}
+
+function deselectCell(c)
+{
+   c.runtimeStyle.backgroundColor = "white";
+   c.runtimeStyle.color = "white";
+}
+
+document.onclick = cancelSelect;
+</SCRIPT>
+
+
+<STYLE ID=mainstyle TITLE="Main Style">
+H2 {font-family: helvetica ;
+   color: yellow}
+
+P  {color: yellow ;
+   font-family: 'Comic Sans MS'}
+
+
+TH {  color: blue ;
+      background-color :  "#808080" ;
+      font-family: 'Comic Sans MS' ;
+      font-weight: bold ;
+      font-size: 10pt
+   }
+
+TD {  color:blue ;
+      font-family: 'Comic Sans MS' ;
+      font-weight: bold ;
+      font-size: 10pt
+   }
+
+<!-- day 1 is Sunday
+
+-->
+.mon {color:yellow}
+.tue {color:yellow}
+.wed {color: yellow}
+.thu {color:yellow}
+.fri {color:yellow}
+.special {color: red}
+
+</STYLE>
+
+<SCRIPT>
+var todayname;
+function refresh()
+{
+var daynames = new Array("Su", "M", "T", "W", "Th", "F", "S");
+   now = new Date();
+   todayname = daynames[now.getDay()];
+
+   //Using the document all results in some objects which don't have
+   //suitable properties. Using the all collection associated with the
+   //named id should ensure that all elements have an innerText property.
+   // This appears to have dramatically changed since it was first written and
+   // now the columns are only available on a row object. So must loop through all rows
+   // and find the correct column. This is probably better done with some CSS class manipulation
+   // but that's for a rainey day (sun is shining at the moment!).
+   // HoHum Setting the style colour of the cell no longer works, so although the loop correctly
+   // locates the correct cells, setting the style colur doesn't affect the display.
+   //console.log("table object:" + document.all.Requests.rows);
+   var rows = document.all.Requests.rows;
+   for(r = 0; r < rows.length; r++)
+   {
+      //console.log("row: " + r);
+      var coln = rows[r].cells; // document.all.Requests.all;
+      for(i=0; i<coln.length; i++)
+      {
+         //console.log("row: " + r + " col: " + i);
+         var elem = coln.item(i);
+         //console.log("row: " + r + " col: " + i + " today: " + elem.innerText);
+   
+         if(todayname == elem.innerText)
+         {
+            //console.log("row: " + r + " col: " + i + " today: " + elem.innerText + " RED");
+            // Appaarently this is no longer sufficient to set the color to RED!!!!
+            elem.style.color = "#00AA00"; //"red";
+         }
+      }
+   }
+}
+
+function init()
+{
+  refresh();
+   window.setTimeout("refresh();", 60000);
+
+  // This seems to be the only way to find the value for base
+  var head = "";
+  for(i=0; i<document.all.length; i++)
+  {
+    if(document.all(i).tagName == "BASE")
+    {
+      head = document.all(i).href;
+    }
+  }
+  //alert("" + head);
+
+//  window.parent.frames("C45").location = "" + head + todayname + "c4.html";
+
+
+//This makes the changes based on the class of the item but requires a more complex HTML
+//statement to use.
+//var days = new Array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
+//   today = days[now.getDay()];
+//   for(i=0; i<document.all.length; i++)
+//   {
+//      if(document.all(i).className == today)
+//         document.all(i).style.color = "red";
+//   }
+
+
+}
+</SCRIPT>
+
+<head><title>What's On</title></head>
+<BODY onLoad="init()" LINK="#0000ff" VLINK="#800080" BGCOLOR="#c0c0c0" ALIGN=CENTER>
+<P>
+<A CLASS="dbx" TARGET="vuutimers" HREF="http://vuultimo/static/cpa-ng/"><img src="vup.png" border="0" alt="Goto VU+ Ultimo NG timers" hspace="2"></A>&nbsp;&nbsp;&nbsp;&nbsp;
+<A CLASS="dbx" TARGET="dbxtimers" HREF="http://sf8008/static/cpa-ng"><img src="octagon.png" border="0" alt="Goto SF8008 NG timers" hspace="2"></A><BR>   
+
+   <A HREF="tv-ng/00favorites.htm" target="INFO">This Week</A><BR>
+<A HREF="tv-ng/00newseries.htm" target="INFO">New series starting</A><BR>
+<A HREF="crit/critlist.php" target="INFO">Favourites</A><BR>
+
+<TABLE NAME="Requests" ID="Requests" BORDER=0 CELLSPACING=2 BORDERCOLOR="#808080">
+<TR><TD>BBC&nbsp;1SE&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/BBC1SEHD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>BBC&nbsp;2&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/BBC2HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>BBC&nbsp;3&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/BBC3HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>BBC&nbsp;4&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/BBC4HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;1&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV1HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;2&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV2HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;3&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV3HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;4&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV4HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>C&nbsp;4&nbsp;HD</TD>  
+                       <TD><A HREF="tv-ng/Channel4HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Channel4HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>E4</TD>  <TD><A HREF="tv-ng/E4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/E4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/E4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/E4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/E4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/E4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/E4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>More4</TD>  <TD><A HREF="tv-ng/More4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/More4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/More4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/More4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/More4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/More4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/More4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Film4</TD><TD><A HREF="tv-ng/Film4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Film4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>C&nbsp;5&nbsp;HD</TD>  
+                       <TD><A HREF="tv-ng/FiveHD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/FiveHD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5 USA</TD>  <TD><A HREF="tv-ng/5USA_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5USA_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5*</TD>  <TD><A HREF="tv-ng/5STAR_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5STAR_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5 Action</TD>  <TD><A HREF="tv-ng/5ACTION_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5 Select</TD>  <TD><A HREF="tv-ng/5SELECT_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>&eacute;&eacute;n</TD><TD><A HREF="tv-ng/%C3%A9%C3%A9n_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/%C3%A9%C3%A9n_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Cvs</TD><TD><A HREF="tv-ng/Canvas_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Canvas_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>Play</TD><TD><A HREF="tv-ng/Play_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Play_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Play_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Play_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Play_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Play_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Play_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Play Fictie</TD><TD><A HREF="tv-ng/PlayFictie_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/PlayFictie_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Play Actie</TD><TD><A HREF="tv-ng/PlayActie_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/PlayActie_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>Play Reality</TD><TD><A HREF="tv-ng/PlayReality_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/PlayReality_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>VTM</TD><TD><A HREF="tv-ng/VTM_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/VTM_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>VTM 2</TD><TD><A HREF="tv-ng/VTM2_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/VTM2_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>VTM 3</TD><TD><A HREF="tv-ng/VTM3_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/VTM3_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>VTM 4</TD><TD><A HREF="tv-ng/VTM4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/VTM4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+
+<TR><TD>Ned&nbsp;1</TD><TD><A HREF="tv-ng/Ned1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Ned1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Ned&nbsp;2</TD><TD><A HREF="tv-ng/Ned2_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Ned2_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>Ned&nbsp;3</TD><TD><A HREF="tv-ng/Ned3_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Ned3_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>BBC&nbsp;1&nbsp;HD</TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/BBC1HD_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>ITV1<SUP>+1</SUP></TD><TD><A HREF="tv-ng/ITV1+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV1+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>ITV2<SUP>+1</SUP></TD><TD><A HREF="tv-ng/ITV2+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV2+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV3<SUP>+1</SUP></TD><TD><A HREF="tv-ng/ITV3+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV3+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV4<SUP>+1</SUP></TD><TD><A HREF="tv-ng/ITV4+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV4+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>C&nbsp;4</TD>  <TD><A HREF="tv-ng/Channel4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Channel4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>C&nbsp;4<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/Channel4+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Channel4+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>E4<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/E4+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/E4+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>More4<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/More4+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/More4+1_Sun.html" target="INFO">Su</A></TD>
+
+<TR><TD>Film4<SUP>+1</SUP></TD><TD><A HREF="tv-ng/Film4+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Film4+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+
+<TR><TD>C&nbsp;5</TD>  <TD><A HREF="tv-ng/Five_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Five_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Five_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Five_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Five_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Five_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Five_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>C&nbsp;5<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/Five+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/Five+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5 USA<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/5USA+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5USA+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5*<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/5STAR+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5STAR+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5Action<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/5ACTION+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5ACTION+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>5Select<SUP>+1</SUP></TD>  <TD><A HREF="tv-ng/5SELECT+1_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/5SELECT+1_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;3</TD><TD><A HREF="tv-ng/ITV3_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV3_Sun.html" target="INFO">Su</A></TD>
+</TR>
+<TR><TD>ITV&nbsp;4</TD><TD><A HREF="tv-ng/ITV4_Mon.html" target="INFO">M</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Tue.html" target="INFO">T</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Wed.html" target="INFO">W</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Thu.html" target="INFO">Th</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Fri.html" target="INFO">F</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Sat.html" target="INFO">S</A></TD>
+                       <TD><A HREF="tv-ng/ITV4_Sun.html" target="INFO">Su</A></TD>
+</TR>
+</TABLE>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

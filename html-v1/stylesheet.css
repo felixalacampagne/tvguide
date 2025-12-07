@@ -1,0 +1,146 @@
+A.fav:link
+{
+    COLOR: #FF0000;
+    FONT-SIZE: 9pt;
+     TEXT-DECORATION: none;
+}
+
+ A.fav:visited
+{
+    COLOR: #FF0000;
+    FONT-SIZE: 9pt;
+     TEXT-DECORATION: none;
+}
+
+A.fav:hover
+{
+   COLOR: #4F5CA6;
+}
+A.fav:active
+{
+   COLOR: #4F5CA6
+} 
+BODY
+{
+
+   font-size: 08px;
+   
+   color: #000000;
+   BACKGROUND-COLOR: #C0C0C0;
+}
+
+.genprog
+{
+
+   font-size: 16px;
+   
+   color: #000080;
+   BACKGROUND-COLOR: #C0C0C0;
+}
+
+
+H2
+{
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 20px;
+
+   color: #0000FF;
+}
+
+P
+{
+   color: #000000;
+   FONT-SIZE: 08px;
+   
+}    
+
+A.crit
+{
+   color: #C000C0;
+   FONT-SIZE: 16px;
+   
+}    
+
+
+TD.fav
+{
+   color: #000000;
+   FONT-SIZE: 10px;
+   
+}
+
+
+TD.time
+{
+   vertical-align:top;
+   
+}
+TD.title
+{
+   vertical-align:top;
+   
+}
+
+.prog0
+{
+   background-color: #FAF0E6;
+}
+.prog1
+{
+   background-color: #FFE4E1
+}
+.episode
+{
+   color: blue;
+}
+.title_favorite
+{
+font-weight: bold;
+font-size: larger;
+color: #00FF00;
+}
+
+.title_newseries
+{
+font-weight: bold;
+font-size: larger;
+color: #FF5500;
+}
+.title_normal
+{
+font-weight: bold;
+color: #000000;
+}
+.favstart
+{
+   middle
+}
+
+.favchan
+{
+   vertical-align:middle;
+}
+.favprog
+{
+   vertical-align:middle;
+   font-weight: bold;
+}
+A.favprog:link
+{
+  TEXT-DECORATION: none;
+}
+
+A.favprog:visited
+{
+  TEXT-DECORATION: none;
+}
+
+A.favprog:hover
+{
+  COLOR: #8000ff;
+  TEXT-DECORATION: none;
+}
+A.favprog:active
+{
+  COLOR: #FF00FF;
+} 
