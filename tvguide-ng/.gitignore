@@ -1,17 +1,4 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-*.bak
-*.lnk
-*.zip
-*.jar
-*.war
-*.test
-*.out
-*.log
-*.rej
-*.diff
-*.spec.*
-
-package-lock.json
 
 # Compiled output
 /dist
