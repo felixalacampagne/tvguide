@@ -2,7 +2,7 @@
 *.bak
 *.lnk
 *.zip
-*.jar
+# *.jar
 *.war
 *.test
 *.out
