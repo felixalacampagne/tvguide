@@ -13,6 +13,9 @@
 
 package-lock.json
 
+**/tv-ng
+*.sh
+
 # Compiled output
 /dist
 /tmp

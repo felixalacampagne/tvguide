@@ -32,15 +32,51 @@ not sure how the pipe get's used, possibly in the get
 
 
 <mat-toolbar>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
+   <!-- span>TV Guide</span -->
+   <!-- span class="spacer"></span -->
+    <div class="header">
+      <div class="leftbuttons col">
+   <button matMiniFab (click)="loadFavorites()" class="favorite-icon" aria-label="This weeks favourites">
+      <mat-icon fontSet="material-symbols-rounded">favorite</mat-icon>
+   </button>
+      </div>
+   <div class="day-select-group col">
+      <button matIconButton  (click)="prevDay()" class="" aria-label="Previous day">
+         <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
+      </button>
+      <mat-select class="day-select" (selectionChange)="dayChanged($event)" [(value)]="selDay" placeholder="Day">
+         @for (day of tvgutils.getDays(); track day) {
+            <mat-option [value]="day">{{ day }}</mat-option>
+         }
+      </mat-select>
+      <button matIconButton (click)="nextDay()" class="" aria-label="Next day">
+         <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
+      </button>
+   </div>
+   <div class="channel-select-group col">
+      <button matIconButton  (click)="prevChannel()" class="" aria-label="Previous channel">
+         <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
+      </button>
+      <mat-select class="channel-select" (selectionChange)="channelChanged($event)" [(value)]="selChannel" placeholder="Channel">
+         @for (chan of tvgutils.getChannels(); track chan) {
+            <mat-option [value]="chan">{{ chan.name }}</mat-option>
+         }
+      </mat-select>
+      <button matIconButton (click)="nextChannel()" class="" aria-label="Next channel">
+         <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
+      </button>
+   </div>
+
+   <div class="rightbuttons col">
+   <button matMiniFab (click)="loadUpcoming()" class="" aria-label="New series starting this week">
+      <mat-icon fontSet="material-symbols-rounded">upcoming</mat-icon><!-- release_alert -->
+   </button>
+   <button matMiniFab (click)="loadFavouriteList()" class="" aria-label="List of favourites">
+      <mat-icon fontSet="material-symbols-rounded">subscriptions</mat-icon>
+   </button>
+   </div>
+    </div>
+
 </mat-toolbar>
+
+<div [innerHtml]="guidePageHtml"></div>
