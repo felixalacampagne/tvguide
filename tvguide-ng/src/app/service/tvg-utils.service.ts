@@ -19,6 +19,7 @@ export class TvgUtilsService {
       new Channel("BBC 2", "BBC2HD"),
       new Channel("BBC 3", "BBC3HD"),
       new Channel("BBC 4", "BBC4HD"),
+      new Channel("Channel 4 HD", "C4HD"),
       new Channel("ITV 1", "ITV1HD"),
       new Channel("ITV 2", "ITV2HD"),
       new Channel("ITV 3", "ITV3HD"),

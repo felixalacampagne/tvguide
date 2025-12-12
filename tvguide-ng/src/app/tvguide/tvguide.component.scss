@@ -1,5 +1,11 @@
 @use '@angular/material' as mat;
 
+.mat-toolbar
+{
+   padding-right: 0px;
+   padding-left:5px;
+}
+
 .header
 {
   display: flex;
@@ -22,23 +28,34 @@
 
 }
 
-.day-select-group
-{
 
-   border-radius: 4px;
-   border-style: solid;
-   border-width: 1px;
-   border-color: var(--mat-sys-outline);
-   background-color:var(--mat-sys-background);
-   box-shadow: none;
+/*
+   Typical Material ballshirt - the components do not adjust to the font-size
+   When the font size of the select is reduced the font size of the dropdown
+   list does not match it. When the font size of the dropdown list is forced
+   to match that of the select then the list container does not display the
+   list properly.
+
+   I suspect this might be where 'zoom' should be used by haven't managed to
+   find where I used it before...
+ */
+.mat-mdc-option
+{
+   font-size: 10pt;
+}
+.channel-select
+{
+   width: 110px;
+   font-size: 10pt;
 }
 
 .day-select
 {
-   width: 100px;
+   width: 70px;
+   font-size: 10pt;
 }
 
-.channel-select-group
+.prev-next-select-group
 {
    border-radius: 4px;
    border-style: solid;
@@ -46,14 +63,19 @@
    border-color: var(--mat-sys-outline);
    background-color:var(--mat-sys-background);
    box-shadow: none;
-}
 
-.channel-select
-{
-   width: 200px;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: nowrap;
+   align-items: center;
+
+
 }
 
 .rightbuttons
 {
-
+   display: flex;
+   flex-direction: row;
+   flex-wrap: nowrap;
+   gap: 10px;
 }
