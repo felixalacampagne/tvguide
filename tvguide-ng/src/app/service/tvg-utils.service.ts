@@ -57,9 +57,9 @@ export class TvgUtilsService {
       new Channel("More4 +1",      "More4+1"),
       new Channel("Film4 +1",      "Film4+1"),
       new Channel("5USA +1",       "5USA+1"),
-      new Channel("5STAR +1",      "5STAR+1"),
-      new Channel("5SELECT +1",    "5SELECT+1"),
-      new Channel("5ACTION +1",    "5ACTION+1")
+      new Channel("5STAR +1",      "5STAR+1")
+      // ,new Channel("5SELECT +1",    "5SELECT+1")
+      // ,new Channel("5ACTION +1",    "5ACTION+1")
     // , new Channel("", ""),
    ];
 

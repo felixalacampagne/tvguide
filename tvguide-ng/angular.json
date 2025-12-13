@@ -28,7 +28,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -53,6 +54,17 @@
               "outputHashing": "all"
             },
             "development": {
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "tv-ng",
+                "output": "/tv-ng/"
+              },
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
@@ -68,6 +80,7 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+
           "configurations": {
             "production": {
               "buildTarget": "tvguide-ng:build:production"

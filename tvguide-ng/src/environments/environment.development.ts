@@ -1,6 +1,4 @@
 export const environment = {
     production: false,
-    tvgpath: "/tv-ng/",
-    baseref: "/"
-
+    tvgpath: "/tv-ng/"
 };
