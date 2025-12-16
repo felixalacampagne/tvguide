@@ -22,12 +22,12 @@ Maybe need something called 'safeHtml' pipe:
 @Pipe({name: 'safeHtml'})
 export class SafeHtmlPipe {
   constructor(private sanitizer: DomSanitizer){}
-    
+
   transform(html: string) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
-not sure how the pipe get's used, possibly in the get 
+not sure how the pipe get's used, possibly in the get
 -->
 
 
@@ -79,4 +79,9 @@ not sure how the pipe get's used, possibly in the get
 
 </mat-toolbar>
 
-<div [innerHtml]="guidePageHtml"></div>
+
+<!-- div [innerHtml]="guidePageHtml"></div -->
+
+<div class="guidepagediv">
+   <iframe [src]="guidePageURL" class="guidepageframe"></iframe>
+</div>
