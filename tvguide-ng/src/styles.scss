@@ -25,6 +25,8 @@ html {
 html, body
 {
    height: 100%;
+   min-height: 100%;
+   overflow: none;
 }
 
 body
@@ -39,7 +41,11 @@ body
   font: var(--mat-sys-body-medium);
 }
 
-
+.page
+{
+   height: 100%;
+   overflow: none;
+}
 // Below is content of otvguide stylesheet.css
 
 A.fav:link

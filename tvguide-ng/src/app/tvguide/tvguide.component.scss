@@ -18,14 +18,16 @@
   gap: 10px;
 }
 
+// columns in the header flex
 .col
 {
    flex: 0 0 auto;
 }
 
+// class for buttons on the left of the selector boxes
 .leftbuttons
 {
-
+   opacity: inherit;  // nop value to avoid warnings
 }
 
 
@@ -43,16 +45,22 @@
 {
    font-size: 10pt;
 }
+
+.channel-select, .day-select
+{
+   font-size: 10pt;
+   padding-right: 10px;
+   padding-left: 10px;
+}
+
 .channel-select
 {
    width: 110px;
-   font-size: 10pt;
 }
 
 .day-select
 {
    width: 70px;
-   font-size: 10pt;
 }
 
 .prev-next-select-group
@@ -68,10 +76,22 @@
    flex-direction: row;
    flex-wrap: nowrap;
    align-items: center;
-
-
 }
 
+// class for the previous buttons in the selector boxes
+.but-prev
+{
+   opacity: inherit;  // nop value to avoid warnings
+}
+
+// class for the next buttons in the selector boxes
+.but-next
+{
+
+   opacity: inherit;  // nop value to avoid warnings
+}
+
+// class for buttons on the right of the selector boxes
 .rightbuttons
 {
    display: flex;
@@ -80,22 +100,44 @@
    gap: 10px;
 }
 
-.guidepagediv
+/*
+   Battled for ages trying to get the iframe to fill the remaining
+   height under the toolbar without showing two vertical scrollbars.
+   The only thing which appears to work at the moment is to set the
+   height of the iframe to 98%. This means the unnecessary scrollbar only
+   appears when the browser is reduced to an impractical size.
+ */
+.container
 {
-  position: relative;
-  overflow: none;
-  width: 100%;
-  height: 90vh;
+   height: 100%;
+   width: 100%;
+   overflow: none;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: nowrap;
+   align-items: stretch;
+   align-content: stretch;
+   margin: 0px;
+
+}
+
+.col-toolbar
+{
+   flex: none;
+}
+
+.col-guidepageframe
+{
+   flex: 1 1 auto;
+   align-items: stretch;
+   overflow: none;
+   min-height: 0px;
+   margin: 0px;
 }
 
 .guidepageframe
 {
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+   position: relative;
+   width: 98%;
+   height: 98%;
 }
