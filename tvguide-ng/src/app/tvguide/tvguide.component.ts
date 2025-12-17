@@ -124,4 +124,11 @@ export class TvguideComponent {
    {
       this.selChannel = this.nullChannel;
    }
+
+   gotoTimers(stb : string)
+   {
+      // http://vuultimo/static/cpa-ng/
+      // http://sf8008/static/cpa-ng/
+      window.open("http://" + stb + "/static/cpa-ng/", "timers" + stb);
+   }
 }

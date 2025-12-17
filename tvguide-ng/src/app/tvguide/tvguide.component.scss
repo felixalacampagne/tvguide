@@ -1,21 +1,33 @@
 @use '@angular/material' as mat;
 
-.mat-toolbar
-{
-   padding-right: 0px;
-   padding-left:5px;
-}
+/* Thought I had it adjusted so the toolbar fitted on one line (using mat-toolbar)
+   on the phone until I discovered that forking Safari was 'zooming' the website
+   to 75%. At least now I understand why the resolution appeared to be different
+   to the quote one. Obviously I don't want the zoom as the point is to make
+   the site easier to use on the phone, ie. with bigger things to tap.
+   using the 'official' quoted resolution it is impractical to have everything on
+   one line so forced to allow wrap. That gave a display where the toolbar row
+   remains the same size and the top of the first row and bottom of the second
+   row is missing. Eventually discovered this is caused by the mat-toolbar. Got
+   rid of it and the display is more sensible. To make it look more balanced
+   I had to group all the buttons together. Putting the whole thing in the center
+   seems the best option. I prefer the buttons on the left or above the selects
+   which is why the 'wrap-reverse' is used - it wraps the items 'up'.
 
+   Anyway it seems to be OK for now until I can think of a better way to do it.
+   More important now is to get the guide page layout to work a little better,
+   specifically need to wrap the link icons - no clue why they don't wrap automatically!
+*/
 .header
 {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  flex-wrap: wrap-reverse;
+  justify-content: center; // space-around; //flex-start;
+  margin-top: 2px;
+  margin-bottom: 2px;
   width: 100%;
-  gap: 8px;
+  gap: 4px;
 }
 
 // columns in the header flex
@@ -37,15 +49,15 @@
 
 .channel-select, .day-select
 {
-   font-size: 12pt !important;  // only works with !importnat
+   font-size: 14pt !important;  // only works with !importnat
    padding-right: 8px;
    padding-left: 4px;
 }
 
 .day-select
 {
-   width: 45px;
-   min-width: 45px; // avoids select box from shrinking to fit the content
+   width: 50px;
+   min-width: 50px; // avoids select box from shrinking to fit the content
 }
 
 .day-option
