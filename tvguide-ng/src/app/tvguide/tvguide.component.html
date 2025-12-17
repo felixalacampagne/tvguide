@@ -44,9 +44,9 @@ not sure how the pipe get's used, possibly in the get
                <button matIconButton  (click)="prevDay()" class="but-prev" aria-label="Previous day">
                   <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
                </button>
-               <mat-select class="day-select" (selectionChange)="dayChanged($event)" [(value)]="selDay" placeholder="Day">
+               <mat-select panelWidth="" panelClass="day" class="day-select" (selectionChange)="dayChanged($event)" [(value)]="selDay" placeholder="Day">
                   @for (day of tvgutils.getDays(); track day) {
-                     <mat-option [value]="day">{{ day }}</mat-option>
+                     <mat-option class="day-option" [value]="day">{{ day }}</mat-option>
                   }
                </mat-select>
                <button matIconButton (click)="nextDay()" class="but-next" aria-label="Next day">
@@ -57,9 +57,9 @@ not sure how the pipe get's used, possibly in the get
                <button matIconButton  (click)="prevChannel()" class="but-prev" aria-label="Previous channel">
                   <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
                </button>
-               <mat-select class="channel-select" (selectionChange)="channelChanged($event)" [(value)]="selChannel" placeholder="Channel">
+               <mat-select panelWidth="" panelClass="channel" class="channel-select" (selectionChange)="channelChanged($event)" [(value)]="selChannel" placeholder="Channel">
                   @for (chan of tvgutils.getChannels(); track chan) {
-                     <mat-option [value]="chan">{{ chan.name }}</mat-option>
+                     <mat-option [value]="chan" class="channel-option">{{ chan.name }}</mat-option>
                   }
                </mat-select>
                <button matIconButton (click)="nextChannel()" class="but-next" aria-label="Next channel">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon'; // ng add @angular/material
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,7 +21,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       MatCardModule
    ],
    templateUrl: './tvguide.component.html',
-   styleUrl: './tvguide.component.scss'
+   styleUrl: './tvguide.component.scss',
+   encapsulation: ViewEncapsulation.None // required for component select dropdown styles to work
 })
 export class TvguideComponent {
    tvgutils = inject(TvgUtilsService);
@@ -63,7 +64,7 @@ export class TvguideComponent {
       let pageUrl : string = this.tvgutils.getPageURL("00favorites");
       console.log("loadFavorites: loading page %s", pageUrl);
       this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
-      this.resetSelctions();
+      this.resetSelections();
       /*
       this.http.get(pageUrl, {responseType: 'text'})
          .pipe( map((html:any) => this.guidePageHtml = html))
@@ -86,26 +87,15 @@ export class TvguideComponent {
       let pageUrl : string = this.tvgutils.getPageURL("00newseries");
       console.log("loadUpcoming: loading page %s", pageUrl);
       this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
-      this.resetSelctions();
-      // this.http.get(pageUrl, {responseType: 'text'})
-      //    .pipe( map((html:any) => this.guidePageHtml = html))
-      //    .subscribe(
-      //    {
-      //       error:  (err) =>
-      //       {
-      //          console.log("loadUpcoming: Error: %s", JSON.stringify(err));
-      //       },
-      //       complete: () =>
-      //       {
-      //          this.resetSelctions();
-      //       }
-      //    }
-      // )
+      this.resetSelections();
    }
 
    loadFavouriteList()
    {
-      this.resetSelctions();
+      let pageUrl : string = this.tvgutils.getPageURL("/crit/critlist.php");
+      console.log("loadFavouriteList: loading page %s", pageUrl);
+      this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
+      this.resetSelections();
 
    }
 
@@ -157,7 +147,7 @@ export class TvguideComponent {
       this.loadListing( this.selDay, this.selChannel );
    }
 
-   resetSelctions()
+   resetSelections()
    {
       // this.selDay = this.nullDay;
       this.selChannel = this.nullChannel;
