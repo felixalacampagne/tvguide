@@ -8,7 +8,6 @@ import { MatCardModule } from '@angular/material/card';
 import { TvgUtilsService } from '../service/tvg-utils.service';
 import { Channel } from '../model/channel';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -65,21 +64,6 @@ export class TvguideComponent {
       console.log("loadFavorites: loading page %s", pageUrl);
       this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
       this.resetSelections();
-      /*
-      this.http.get(pageUrl, {responseType: 'text'})
-         .pipe( map((html:any) => this.guidePageHtml = html))
-         .subscribe(
-         {
-            error:  (err) =>
-            {
-               console.log("loadFavorites: Error: %s", JSON.stringify(err));
-            },
-            complete: () =>
-            {
-               this.resetSelctions();
-            }
-         }
-      )*/
    }
 
    loadUpcoming()
@@ -96,7 +80,6 @@ export class TvguideComponent {
       console.log("loadFavouriteList: loading page %s", pageUrl);
       this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
       this.resetSelections();
-
    }
 
    loadListing(day : string, channel : Channel)
@@ -108,16 +91,6 @@ export class TvguideComponent {
       let pageUrl : string = this.tvgutils.getPageURL(day, channel);
       console.log("loadListing: loading page %s", pageUrl);
       this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
-      // this.http.get(pageUrl, {responseType: 'text'})
-      //    .pipe( map((html:any) => this.guidePageHtml = html))
-      //    .subscribe(
-      //    {
-      //       error:  (err) =>
-      //       {
-      //          console.log("loadListing: Error: %s", JSON.stringify(err));
-      //       }
-      //    }
-      // )
    }
 
    prevDay()
@@ -149,7 +122,6 @@ export class TvguideComponent {
 
    resetSelections()
    {
-      // this.selDay = this.nullDay;
       this.selChannel = this.nullChannel;
    }
 }

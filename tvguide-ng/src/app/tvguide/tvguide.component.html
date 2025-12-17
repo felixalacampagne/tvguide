@@ -1,39 +1,6 @@
-<!--
-Looks like the Angular Material Toolbar is most likely to be suitable
-for the top navigation zone.
-
-The problem then is how to load the guide pages - this previously happened in
-and frane which is frowned upon nowadays.
-
-I don't see anything specifically Material related for this.
-
-Closest I've come across is:
-HTML
-<div [innerHtml]="myTemplate"></div>
-TS
-export public class MyComponent {
-    private myTemplate: any = "";
-    constructor(http: Http) {
-        http.get(myExternalPageLink).map((html:any) => this.myTemplate = html);
-    }
-}
-
-Maybe need something called 'safeHtml' pipe:
-@Pipe({name: 'safeHtml'})
-export class SafeHtmlPipe {
-  constructor(private sanitizer: DomSanitizer){}
-
-  transform(html: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
-  }
-}
-not sure how the pipe get's used, possibly in the get
--->
 <div class="container">
    <div class="col-toolbar">
       <mat-toolbar>
-         <!-- span>TV Guide</span -->
-         <!-- span class="spacer"></span -->
          <div class="header">
             <div class="leftbuttons col">
                <button matMiniFab (click)="loadFavorites()" class="favorite-icon" aria-label="This weeks favourites">

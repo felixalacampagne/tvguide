@@ -104,7 +104,6 @@ export class TvgUtilsService {
       }
       // Is there a printf for typescript??
       return this.tvgurlpfx + channel.code + "_" + nameorday + ".html";
-
    }
 
 
