@@ -64,9 +64,11 @@ export class TvgUtilsService {
    ];
 
    private serverhost : string;
+   private applocation : string; // points to the root of the webapp, ie. /tvguide. Used for /crit/critlist.php
    private tvgurlpfx : string = '';
    constructor() {
       this.serverhost = window.location.origin;
+      this.applocation = environment.apppath;
       this.tvgurlpfx = this.serverhost + environment.tvgpath
    }
 
@@ -92,11 +94,16 @@ export class TvgUtilsService {
    {
       if( channel == undefined )
       {
+         if(nameorday.startsWith("/"))
+         {
+            // Hack for the favouritelist page.
+            return this.serverhost + this.applocation + nameorday;
+         }
+
          return this.tvgurlpfx + nameorday + ".htm";
       }
       // Is there a printf for typescript??
       return this.tvgurlpfx + channel.code + "_" + nameorday + ".html";
-
    }
 
 

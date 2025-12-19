@@ -1,82 +1,55 @@
-<!--
-Looks like the Angular Material Toolbar is most likely to be suitable
-for the top navigation zone.
+<div class="container">
+   <div class="col-toolbar">
 
-The problem then is how to load the guide pages - this previously happened in
-and iframe which is frowned upon nowadays.
+         <div class="header">
+            <div class="prev-next-select-group col">
+               <button matIconButton  (click)="prevDay()" class="but-prev" aria-label="Previous day">
+                  <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
+               </button>
+               <mat-select panelWidth="" panelClass="day" class="day-select" (selectionChange)="dayChanged($event)" [(value)]="selDay" placeholder="Day">
+                  @for (day of tvgutils.getDays(); track day) {
+                     <mat-option class="day-option" [value]="day">{{ day }}</mat-option>
+                  }
+               </mat-select>
+               <button matIconButton (click)="nextDay()" class="but-next" aria-label="Next day">
+                  <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
+               </button>
+            </div>
+            <div class="prev-next-select-group col">
+               <button matIconButton  (click)="prevChannel()" class="but-prev" aria-label="Previous channel">
+                  <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
+               </button>
+               <mat-select panelWidth="" panelClass="channel" class="channel-select" (selectionChange)="channelChanged($event)" [(value)]="selChannel" placeholder="Channel">
+                  @for (chan of tvgutils.getChannels(); track chan) {
+                     <mat-option [value]="chan" class="channel-option">{{ chan.name }}</mat-option>
+                  }
+               </mat-select>
+               <button matIconButton (click)="nextChannel()" class="but-next" aria-label="Next channel">
+                  <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
+               </button>
+            </div>
 
-I don't see anything specifically Material related for this.
+            <div class="rightbuttons col">
+               <button matMiniFab (click)="loadFavorites()" class="favorite-icon" aria-label="This weeks favourites">
+                  <mat-icon fontSet="material-symbols-rounded">favorite</mat-icon>
+               </button>
+               <button matMiniFab (click)="loadUpcoming()" class="" aria-label="New series starting this week">
+                  <mat-icon fontSet="material-symbols-rounded">upcoming</mat-icon><!-- release_alert -->
+               </button>
+               <button matMiniFab (click)="loadFavouriteList()" class="" aria-label="List of favourites">
+                  <mat-icon fontSet="material-symbols-rounded">subscriptions</mat-icon>
+               </button>
+               <button matMiniFab (click)="gotoTimers('sf8008')" class="" aria-label="List of favourites">
+                  <img src="octagon.png" border="0" alt="Goto SF8008 timers" hspace="2">
+               </button>
+               <button matMiniFab (click)="gotoTimers('vuultimo')" class="" aria-label="List of favourites">
+                  <img src="vup.png" border="0" alt="Goto VU+ Ultimo webinterface" hspace="2">
+               </button>
+            </div>
+         </div>
 
-Closest I've come across is:
-HTML
-<div [innerHtml]="myTemplate"></div>
-TS
-export public class MyComponent {
-    private myTemplate: any = "";
-    constructor(http: Http) {
-        http.get(myExternalPageLink).map((html:any) => this.myTemplate = html);
-    }
-}
-
-Maybe need something called 'safeHtml' pipe:
-@Pipe({name: 'safeHtml'})
-export class SafeHtmlPipe {
-  constructor(private sanitizer: DomSanitizer){}
-    
-  transform(html: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
-  }
-}
-not sure how the pipe get's used, possibly in the get 
--->
-
-
-<mat-toolbar>
-   <!-- span>TV Guide</span -->
-   <!-- span class="spacer"></span -->
-    <div class="header">
-      <div class="leftbuttons col">
-         <button matMiniFab (click)="loadFavorites()" class="favorite-icon" aria-label="This weeks favourites">
-            <mat-icon fontSet="material-symbols-rounded">favorite</mat-icon>
-         </button>
-      </div>
-      <div class="prev-next-select-group col">
-         <button matIconButton  (click)="prevDay()" class="" aria-label="Previous day">
-            <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
-         </button>
-         <mat-select class="day-select" (selectionChange)="dayChanged($event)" [(value)]="selDay" placeholder="Day">
-            @for (day of tvgutils.getDays(); track day) {
-               <mat-option [value]="day">{{ day }}</mat-option>
-            }
-         </mat-select>
-         <button matIconButton (click)="nextDay()" class="" aria-label="Next day">
-            <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
-         </button>
-      </div>
-      <div class="prev-next-select-group col">
-         <button matIconButton  (click)="prevChannel()" class="" aria-label="Previous channel">
-            <mat-icon fontSet="material-symbols-rounded">arrow_back_2</mat-icon><!-- release_alert -->
-         </button>
-         <mat-select class="channel-select" (selectionChange)="channelChanged($event)" [(value)]="selChannel" placeholder="Channel">
-            @for (chan of tvgutils.getChannels(); track chan) {
-               <mat-option [value]="chan">{{ chan.name }}</mat-option>
-            }
-         </mat-select>
-         <button matIconButton (click)="nextChannel()" class="" aria-label="Next channel">
-            <mat-icon fontSet="material-symbols-rounded">play_arrow</mat-icon><!-- release_alert -->
-         </button>
-      </div>
-
-      <div class="rightbuttons col">
-         <button matMiniFab (click)="loadUpcoming()" class="" aria-label="New series starting this week">
-            <mat-icon fontSet="material-symbols-rounded">upcoming</mat-icon><!-- release_alert -->
-         </button>
-         <button matMiniFab (click)="loadFavouriteList()" class="" aria-label="List of favourites">
-            <mat-icon fontSet="material-symbols-rounded">subscriptions</mat-icon>
-         </button>
-      </div>
-    </div>
-
-</mat-toolbar>
-
-<div [innerHtml]="guidePageHtml"></div>
+   </div>
+   <div class="col-guidepageframe">
+      <iframe [src]="guidePageURL" class="guidepageframe"></iframe>
+   </div>
+</div>

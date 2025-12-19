@@ -26,4 +26,7 @@ export const environment = {
     // This is the path to the pages currently used
     // by the 'legacy' tvguide with references to the STB NG content
     tvgpath: "/tvguide/tv-ng/",
+
+    // hack for location of the favourite list configuration page
+    apppath: "/tvguide"
 };

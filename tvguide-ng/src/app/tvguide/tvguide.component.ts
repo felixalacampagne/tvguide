@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon'; // ng add @angular/material
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 import { TvgUtilsService } from '../service/tvg-utils.service';
 import { Channel } from '../model/channel';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
    selector: 'tvguide-header',
@@ -15,16 +16,20 @@ import { map } from 'rxjs/operators';
       MatIconModule,
       MatToolbarModule,
       MatButtonModule,
-      MatSelectModule
+      MatSelectModule,
+      MatCardModule
    ],
    templateUrl: './tvguide.component.html',
-   styleUrl: './tvguide.component.scss'
+   styleUrl: './tvguide.component.scss',
+   encapsulation: ViewEncapsulation.None // required for component select dropdown styles to work
 })
 export class TvguideComponent {
    tvgutils = inject(TvgUtilsService);
    http = inject(HttpClient);
+   sanitizer = inject(DomSanitizer);
 
    guidePageHtml: any = "";
+   guidePageURL: SafeResourceUrl = "";
    nullChannel : Channel = {code:"", name:""};
    nullDay : string = "";
    selDay : string = this.nullDay;
@@ -57,46 +62,24 @@ export class TvguideComponent {
    {
       let pageUrl : string = this.tvgutils.getPageURL("00favorites");
       console.log("loadFavorites: loading page %s", pageUrl);
-      this.http.get(pageUrl, {responseType: 'text'})
-         .pipe( map((html:any) => this.guidePageHtml = html))
-         .subscribe(
-         {
-            error:  (err) =>
-            {
-               console.log("loadFavorites: Error: %s", JSON.stringify(err));
-            },
-            complete: () =>
-            {
-               this.resetSelctions();
-            }
-         }
-      )
+      this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
+      this.resetSelections();
    }
 
    loadUpcoming()
    {
       let pageUrl : string = this.tvgutils.getPageURL("00newseries");
       console.log("loadUpcoming: loading page %s", pageUrl);
-      this.http.get(pageUrl, {responseType: 'text'})
-         .pipe( map((html:any) => this.guidePageHtml = html))
-         .subscribe(
-         {
-            error:  (err) =>
-            {
-               console.log("loadUpcoming: Error: %s", JSON.stringify(err));
-            },
-            complete: () =>
-            {
-               this.resetSelctions();
-            }
-         }
-      )
+      this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
+      this.resetSelections();
    }
 
    loadFavouriteList()
    {
-      this.resetSelctions();
-
+      let pageUrl : string = this.tvgutils.getPageURL("/crit/critlist.php");
+      console.log("loadFavouriteList: loading page %s", pageUrl);
+      this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
+      this.resetSelections();
    }
 
    loadListing(day : string, channel : Channel)
@@ -107,16 +90,7 @@ export class TvguideComponent {
       }
       let pageUrl : string = this.tvgutils.getPageURL(day, channel);
       console.log("loadListing: loading page %s", pageUrl);
-      this.http.get(pageUrl, {responseType: 'text'})
-         .pipe( map((html:any) => this.guidePageHtml = html))
-         .subscribe(
-         {
-            error:  (err) =>
-            {
-               console.log("loadListing: Error: %s", JSON.stringify(err));
-            }
-         }
-      )
+      this.guidePageURL = this.sanitizer.bypassSecurityTrustResourceUrl(pageUrl);
    }
 
    prevDay()
@@ -146,9 +120,15 @@ export class TvguideComponent {
       this.loadListing( this.selDay, this.selChannel );
    }
 
-   resetSelctions()
+   resetSelections()
    {
-      // this.selDay = this.nullDay;
       this.selChannel = this.nullChannel;
+   }
+
+   gotoTimers(stb : string)
+   {
+      // http://vuultimo/static/cpa-ng/
+      // http://sf8008/static/cpa-ng/
+      window.open("http://" + stb + "/static/cpa-ng/", "timers" + stb);
    }
 }

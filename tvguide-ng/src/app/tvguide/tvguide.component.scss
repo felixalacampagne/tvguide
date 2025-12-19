@@ -1,58 +1,91 @@
 @use '@angular/material' as mat;
 
-.mat-toolbar
-{
-   padding-right: 0px;
-   padding-left:5px;
-}
+/* Thought I had it adjusted so the toolbar fitted on one line (using mat-toolbar)
+   on the phone until I discovered that forking Safari was 'zooming' the website
+   to 75%. At least now I understand why the resolution appeared to be different
+   to the quote one. Obviously I don't want the zoom as the point is to make
+   the site easier to use on the phone, ie. with bigger things to tap.
+   using the 'official' quoted resolution it is impractical to have everything on
+   one line so forced to allow wrap. That gave a display where the toolbar row
+   remains the same size and the top of the first row and bottom of the second
+   row is missing. Eventually discovered this is caused by the mat-toolbar. Got
+   rid of it and the display is more sensible. To make it look more balanced
+   I had to group all the buttons together. Putting the whole thing in the center
+   seems the best option. I prefer the buttons on the left or above the selects
+   which is why the 'wrap-reverse' is used - it wraps the items 'up'.
 
+   Anyway it seems to be OK for now until I can think of a better way to do it.
+   More important now is to get the guide page layout to work a little better,
+   specifically need to wrap the link icons - no clue why they don't wrap automatically!
+*/
 .header
 {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  flex-wrap: wrap-reverse;
+  justify-content: center; // space-around; //flex-start;
+  margin-top: 2px;
+  margin-bottom: 2px;
   width: 100%;
-  gap: 10px;
+  gap: 4px;
 }
 
+// columns in the header flex
 .col
 {
    flex: 0 0 auto;
 }
 
+// class for buttons on the left of the selector boxes
 .leftbuttons
 {
-
+   opacity: inherit;  // nop value to avoid warnings
 }
 
-
-/*
-   Typical Material ballshirt - the components do not adjust to the font-size
-   When the font size of the select is reduced the font size of the dropdown
-   list does not match it. When the font size of the dropdown list is forced
-   to match that of the select then the list container does not display the
-   list properly.
-
-   I suspect this might be where 'zoom' should be used by haven't managed to
-   find where I used it before...
- */
 .mat-mdc-option
 {
-   font-size: 10pt;
+   font-size: 14pt !important;  // only works with !importnat
 }
-.channel-select
+
+.channel-select, .day-select
 {
-   width: 110px;
-   font-size: 10pt;
+   font-size: 14pt !important;  // only works with !importnat
+   padding-right: 8px;
+   padding-left: 4px;
 }
 
 .day-select
 {
-   width: 70px;
-   font-size: 10pt;
+   width: 50px;
+   min-width: 50px; // avoids select box from shrinking to fit the content
+}
+
+.day-option
+{
+   padding-left: 8px; // not really required with the panelWidth="" setting
+}
+
+// day mat-select panelClass, ie. the dropdownlist. Requires 'encapsulation: ViewEncapsulation.None' in @Component
+.day.mat-mdc-select-panel
+{
+   left: -25px; // shift to left so dropdown looks more centered in the prev-next-select group
+}
+
+// channel mat-select panelClass, ie. the dropdownlist. Requires 'encapsulation: ViewEncapsulation.None' in @Component
+.channel.mat-mdc-select-panel
+{
+   left: -30px; // shift to left so dropdown looks more centered in the prev-next-select group
+}
+
+.channel-select
+{
+   width: 114px;
+   min-width: 114px;  // avoids select box from shrinking to fit the content
+}
+
+.channel-option
+{
+   padding-left: 8px; // not really required with the panelWidth="" setting
 }
 
 .prev-next-select-group
@@ -68,14 +101,59 @@
    flex-direction: row;
    flex-wrap: nowrap;
    align-items: center;
-
-
 }
 
+// class for the previous buttons in the selector boxes
+.but-prev
+{
+   opacity: inherit;  // nop value to avoid warnings
+}
+
+// class for the next buttons in the selector boxes
+.but-next
+{
+   opacity: inherit;  // nop value to avoid warnings
+}
+
+// class for buttons on the right of the selector boxes
 .rightbuttons
 {
    display: flex;
    flex-direction: row;
    flex-wrap: nowrap;
-   gap: 10px;
+   gap: 8px;
+}
+
+/*
+   Battled for ages trying to get the iframe to fill the remaining
+   height under the toolbar without showing two vertical scrollbars.
+   The only thing which appears to work at the moment is to set the
+   height of the iframe to 98%. This means the unnecessary scrollbar only
+   appears when the browser is reduced to an impractical size.
+   Finally resolved then by realising that 'overflow: none' was not valid
+   and that 'overflow:hidden' was required to prevent the superfluous scrollbars.
+ */
+.container
+{
+   height: 100%;
+   display: grid;
+   grid-template-rows: auto 1fr;
+   align-content: space-between;
+}
+
+.col-toolbar
+{
+   opacity: inherit;  // nop value to avoid warnings
+}
+
+.col-guidepageframe
+{
+    overflow: hidden;
+    height: 100%;
+}
+
+.guidepageframe
+{
+   width: 100%;
+   height: 100%;
 }
