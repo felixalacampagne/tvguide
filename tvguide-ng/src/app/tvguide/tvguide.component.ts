@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TvgUtilsService } from '../service/tvg-utils.service';
 import { Channel } from '../model/channel';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       MatToolbarModule,
       MatButtonModule,
       MatSelectModule,
-      MatCardModule
+      MatCardModule,
+      MatTooltipModule
    ],
    templateUrl: './tvguide.component.html',
    styleUrl: './tvguide.component.scss',

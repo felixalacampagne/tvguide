@@ -28,6 +28,7 @@
   margin-bottom: 2px;
   width: 100%;
   gap: 4px;
+  background-color: var(--mat-sys-surface-variant);
 }
 
 // columns in the header flex
@@ -44,12 +45,12 @@
 
 .mat-mdc-option
 {
-   font-size: 14pt !important;  // only works with !importnat
+   font-size: 12pt !important;  // only works with !importnat
 }
 
 .channel-select, .day-select
 {
-   font-size: 14pt !important;  // only works with !importnat
+   font-size: 12pt !important;  // only works with !importnat
    padding-right: 8px;
    padding-left: 4px;
 }
@@ -94,7 +95,7 @@
    border-style: solid;
    border-width: 1px;
    border-color: var(--mat-sys-outline);
-   background-color:var(--mat-sys-background);
+   background-color: var(--mat-sys-background);
    box-shadow: none;
 
    display: flex;
